@@ -144,7 +144,7 @@ GET /api/reservations/?event_id=2
 
 Identify a confirmed reservation associated with event 2 and note its ID and number of reserved seats.
 
-![Reservations for event 2](images/reservation-byEvent.png)
+![Reservations for event 2](images/cancelScenario-1.png)
 
 ### Step 2: Check available seats before cancellation
 
@@ -153,6 +153,7 @@ GET /api/events/2/
 ```
 
 Note the current `available_seats` value.
+![Available seats before cancellation](images/cancelScenario-2.png)
 
 ### Step 3: Cancel the reservation
 
@@ -162,23 +163,24 @@ POST /api/reservations/1/cancel/
 
 This example assumes reservation 1 belongs to event 2 and is confirmed. The reservation is cancelled and its reserved seats are returned to the event.
 
-![Cancel reservation](images/reservation-cancel.png)
+![Cancel reservation](images/cancelScenario-3.png)
 
 ### Step 4: Verify available seats after cancellation
 
 ```http
 GET /api/events/2/
 ```
-
+![Available seats after cancellation](images/cancelScenario-4.png)
 Verify that the available seats have increased by the number of seats in the cancelled reservation.
+
 
 **Expected result (illustrative):**
 
 | Field | Value |
 | --- | ---: |
-| Available seats before cancellation | 160 |
-| Seats in cancelled reservation | 5 |
-| Available seats after cancellation | 165 |
+| Available seats before cancellation | 494 |
+| Seats in cancelled reservation | 2 |
+| Available seats after cancellation | 496 |
 
 ```text
 Available seats after cancellation = Previous available seats + Cancelled seats
@@ -228,3 +230,14 @@ object or a list of objects.
 
 This allows the same endpoint (`POST /api/events/`) to handle 
 both individual and bulk event creation.
+
+## 5. Terminal Logs
+
+The screenshot below shows the terminal logs generated 
+during API request execution, including HTTP methods, 
+request endpoints, response status codes, and timestamps.
+
+These logs help monitor API activity, track requests, 
+and debug unexpected behaviour.
+
+![API Request Logs](images/terminal-log.png)
