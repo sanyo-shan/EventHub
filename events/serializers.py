@@ -17,6 +17,7 @@ class EventSerializer(serializers.ModelSerializer):
             raise serializers.ValidationError('available_seats cannot exceed total_seats.')
 
         return data
+    
 
 class ReservationSerializer(serializers.ModelSerializer):
 
@@ -46,5 +47,8 @@ class ReservationSerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         event = validated_data['event']
         event.available_seats -= validated_data['seats_reserved']
+        print(type(event))
+        print(event.id)
+        print(event.available_seats)
         event.save()
         return Reservation.objects.create(**validated_data)

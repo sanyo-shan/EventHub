@@ -20,7 +20,17 @@ class EventViewSet(viewsets.ModelViewSet):
             queryset = queryset.filter(venue__icontains=venue_param)
         return queryset
 
-    # **ReservationViewSet — filter by event_id, custom cancel action**
+    def create(self, request, *args, **kwargs):
+        serializer = self.get_serializer(
+            data = request.data,
+            many=isinstance(request.data, list)
+        )
+        
+        serializer.is_valid(raise_exception = True)
+        serializer.save()
+
+        return Response(serializer.data, status=201)
+    
 
 class ReservationViewSet(viewsets.ModelViewSet):
 
@@ -32,8 +42,6 @@ class ReservationViewSet(viewsets.ModelViewSet):
         if event_id:
             queryset = queryset.filter(event_id=event_id)
         return queryset
-
-    # @action taught in class — detail=True means URL is /reservations/{id}/cancel/
 
     @action(detail=True, methods=['post'])
     def cancel(self, request, pk=None):
